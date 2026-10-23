@@ -2970,5 +2970,55 @@ document.addEventListener('click', async function (e) {
   }
 });
   </script>
+  <script>
+// --- FINISH BOOKING WORKFLOW ---
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  
+  const text = btn.innerText.trim().toLowerCase();
+  
+  // When user clicks Confirm Consultation inside the popup
+  if (text.includes('confirm')) {
+    
+    // 1. Close the popup modal automatically
+    const modal = document.getElementById('booking-modal') || document.querySelector('.modal') || btn.closest('div[style*="fixed"]');
+    if (modal) {
+      modal.style.display = 'none';
+      modal.classList.add('hidden');
+    }
+
+    // 2. Automatically check off Step 4 in Priya's Roadmap
+    const allCheckboxes = document.querySelectorAll('#section-roadmap input[type="checkbox"], input[type="checkbox"]');
+    if (allCheckboxes.length >= 4) {
+      allCheckboxes[3].checked = true;
+      const stepText = allCheckboxes[3].nextElementSibling;
+      if (stepText) {
+        stepText.style.textDecoration = 'line-through';
+        stepText.style.color = '#94a3b8';
+      }
+    }
+
+    // 3. Add Priya's booking to Arjun's Expert Dashboard
+    const expertContainer = document.querySelector('#expert-requests-container') || document.querySelector('#section-expert-dashboard');
+    if (expertContainer) {
+      const card = document.createElement('div');
+      card.style = "background: #ffffff; border: 1px solid #c7d2fe; padding: 14px 18px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 6px rgba(0,0,0,0.04);";
+      card.innerHTML = `
+        <div>
+          <span style="background: #fef3c7; color: #92400e; font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 10px;">New Request</span>
+          <h4 style="margin: 4px 0 2px 0; font-weight: 700; color: #0f172a; font-size: 15px;">Priya (Student)</h4>
+          <p style="margin: 0; font-size: 12px; color: #64748b;">1-on-1 Career Consultation • Next Available Slot</p>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button onclick="this.parentElement.innerHTML='<span style=\\'color:#16a34a; font-weight:bold; font-size:12px;\\'>✓ Confirmed</span>'" style="background: #4f46e5; color: white; border: none; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer;">Accept</button>
+          <button onclick="this.closest('div[style*=\\'border: 1px solid\\']').remove()" style="background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 6px 12px; border-radius: 8px; font-size: 12px; cursor: pointer;">Decline</button>
+        </div>
+      `;
+      expertContainer.prepend(card);
+    }
+  }
+});
+</script>
 </body>
 </html>
