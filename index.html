@@ -3217,5 +3217,41 @@ function initRoadmapSystem() {
   calculateProgress();
 }
 </script>
+<!-- RELIABLE ROADMAP PERSISTENCE SCRIPT -->
+<script>
+window.addEventListener('load', function () {
+  setTimeout(restoreRoadmapState, 150);
+});
+
+function restoreRoadmapState() {
+  const checkboxes = Array.from(document.querySelectorAll('#section-roadmap input[type="checkbox"], input[type="checkbox"]'));
+  if (checkboxes.length === 0) return;
+
+  const saved = JSON.parse(localStorage.getItem('user_roadmap_saved') || '[]');
+
+  // If user has saved progress before, restore it by triggering real clicks
+  if (saved.length > 0) {
+    checkboxes.forEach((cb, idx) => {
+      const shouldBeChecked = saved.includes(idx);
+      if (cb.checked !== shouldBeChecked) {
+        cb.click(); // Triggers your template's native notification and progress engine!
+      }
+    });
+  }
+
+  // Listen for future clicks to save state
+  checkboxes.forEach((cb, idx) => {
+    cb.addEventListener('change', function () {
+      setTimeout(() => {
+        const currentlyChecked = [];
+        checkboxes.forEach((c, i) => {
+          if (c.checked) currentlyChecked.push(i);
+        });
+        localStorage.setItem('user_roadmap_saved', JSON.stringify(currentlyChecked));
+      }, 50);
+    });
+  });
+}
+</script>
 </body>
 </html>
