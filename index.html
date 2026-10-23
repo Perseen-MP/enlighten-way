@@ -1,0 +1,2889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enlighten Way – Career Guidance & Mentorship Platform</title>
+  <style>
+    /* ==========================================================================
+       ENTERPRISE DESIGN SYSTEM & CSS VARIABLES
+       ========================================================================== */
+    :root {
+      --primary: #4338ca;
+      --primary-600: #4f46e5;
+      --primary-500: #6366f1;
+      --primary-50: #eef2ff;
+      --primary-100: #e0e7ff;
+      --accent: #0ea5e9;
+      --accent-50: #f0f9ff;
+      --emerald: #059669;
+      --emerald-50: #ecfdf5;
+      --rose: #e11d48;
+      --rose-50: #fff1f2;
+      --amber: #d97706;
+      --amber-50: #fffbeb;
+      --slate-900: #0f172a;
+      --slate-800: #1e293b;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748b;
+      --slate-400: #94a3b8;
+      --slate-300: #cbd5e1;
+      --slate-200: #e2e8f0;
+      --slate-100: #f1f5f9;
+      --slate-50: #f8fafc;
+      --white: #ffffff;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --shadow-subtle: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+      --shadow-card: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+      --shadow-hover: 0 12px 24px -4px rgba(15, 23, 42, 0.1), 0 4px 6px -2px rgba(15, 23, 42, 0.05);
+      --shadow-popover: 0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.06);
+      --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--slate-50);
+      color: var(--slate-800);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: var(--slate-100); }
+    ::-webkit-scrollbar-thumb { background: var(--slate-300); border-radius: 99px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--slate-400); }
+
+    /* Button Reset & Base */
+    button, input, select, textarea {
+      font-family: inherit;
+      outline: none;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: var(--radius-md);
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      border: 1px solid transparent;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn:active { transform: scale(0.98); }
+    .btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-600) 100%); color: var(--white); box-shadow: 0 2px 4px rgba(79, 70, 229, 0.25); }
+    .btn-primary:hover { background: linear-gradient(135deg, #3730a3 0%, var(--primary) 100%); box-shadow: 0 4px 12px rgba(79, 70, 229, 0.35); }
+    .btn-secondary { background: var(--primary-50); color: var(--primary); border-color: var(--primary-100); }
+    .btn-secondary:hover { background: var(--primary-100); color: #3730a3; }
+    .btn-outline { background: var(--white); color: var(--slate-700); border-color: var(--slate-200); }
+    .btn-outline:hover { background: var(--slate-50); border-color: var(--slate-300); color: var(--slate-900); }
+    .btn-ghost { background: transparent; color: var(--slate-600); }
+    .btn-ghost:hover { background: var(--slate-100); color: var(--slate-900); }
+    .btn-emerald { background: var(--emerald); color: var(--white); }
+    .btn-emerald:hover { background: #047857; }
+    .btn-rose { background: var(--rose-50); color: var(--rose); border-color: #fecdd3; }
+    .btn-rose:hover { background: #ffe4e6; }
+    .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; border-radius: var(--radius-sm); }
+
+    /* Badges & Chips */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+    .badge-indigo { background: var(--primary-50); color: var(--primary); border: 1px solid var(--primary-100); }
+    .badge-emerald { background: var(--emerald-50); color: var(--emerald); border: 1px solid #a7f3d0; }
+    .badge-rose { background: var(--rose-50); color: var(--rose); border: 1px solid #fecdd3; }
+    .badge-amber { background: var(--amber-50); color: var(--amber); border: 1px solid #fde68a; }
+    .badge-accent { background: var(--accent-50); color: var(--accent); border: 1px solid #bae6fd; }
+
+    /* ==========================================================================
+       TOP ANNOUNCEMENT & ROLE SWITCHER BAR
+       ========================================================================== */
+    .top-role-bar {
+      background: var(--slate-900);
+      color: var(--slate-300);
+      font-size: 0.82rem;
+      padding: 0.5rem 1.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .role-persona-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .role-toggle-group {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+      padding: 2px;
+    }
+    .role-toggle-btn {
+      background: transparent;
+      border: none;
+      color: var(--slate-300);
+      padding: 0.3rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .role-toggle-btn.active {
+      background: var(--white);
+      color: var(--slate-900);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    /* ==========================================================================
+       MAIN GLOBAL HEADER
+       ========================================================================== */
+    header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--slate-200);
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      box-shadow: var(--shadow-subtle);
+    }
+    .header-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .brand-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.15rem;
+      box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+    }
+    .brand-text h1 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .brand-text span {
+      font-size: 0.7rem;
+      color: var(--primary);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    nav.main-nav {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+    .nav-btn {
+      background: none;
+      border: none;
+      padding: 0.55rem 0.9rem;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--slate-600);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .nav-btn:hover {
+      color: var(--primary);
+      background: var(--slate-100);
+    }
+    .nav-btn.active {
+      color: var(--primary);
+      background: var(--primary-50);
+      font-weight: 700;
+    }
+    .badge-counter {
+      background: var(--rose);
+      color: var(--white);
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 0.15rem 0.45rem;
+      border-radius: 9999px;
+    }
+
+    .user-profile-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 9999px;
+      background: var(--slate-100);
+      border: 1px solid var(--slate-200);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .user-profile-badge:hover {
+      background: var(--slate-200);
+    }
+    .user-avatar-tiny {
+      width: 32px;
+      height: 32px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+    }
+    .user-name-role {
+      line-height: 1.15;
+      text-align: left;
+    }
+    .user-name-role strong {
+      display: block;
+      font-size: 0.82rem;
+      color: var(--slate-900);
+    }
+    .user-name-role small {
+      font-size: 0.7rem;
+      color: var(--slate-500);
+      font-weight: 500;
+    }
+
+    /* ==========================================================================
+       NOTIFICATION POP TOAST
+       ========================================================================== */
+    #live-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--slate-900);
+      color: var(--white);
+      padding: 1rem 1.4rem;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-popover);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-size: 0.875rem;
+      z-index: 1000;
+      transform: translateY(120px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      border-left: 4px solid var(--emerald);
+    }
+    #live-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* ==========================================================================
+       MAIN CONTENT CONTAINER & VIEWS
+       ========================================================================== */
+    main {
+      max-width: 1280px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem 1.5rem;
+      flex: 1;
+    }
+
+    .view-section {
+      display: none;
+      animation: tabFadeIn 0.25s ease-out;
+    }
+    .view-section.active {
+      display: block;
+    }
+
+    @keyframes tabFadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section Headers */
+    .view-header {
+      margin-bottom: 2rem;
+    }
+    .view-tag {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: var(--primary);
+      margin-bottom: 0.35rem;
+      display: block;
+    }
+    .view-title {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      letter-spacing: -0.6px;
+    }
+    .view-desc {
+      color: var(--slate-600);
+      font-size: 1rem;
+      max-width: 700px;
+      margin-top: 0.35rem;
+    }
+
+    /* ==========================================================================
+       HOME SECTION
+       ========================================================================== */
+    .hero-box {
+      background: linear-gradient(135deg, #ffffff 0%, #f5f3ff 50%, #eff6ff 100%);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 3.5rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 3rem;
+    }
+    .hero-box::before {
+      content: "";
+      position: absolute;
+      top: -60px;
+      right: -60px;
+      width: 240px;
+      height: 240px;
+      border-radius: 9999px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(255, 255, 255, 0) 70%);
+      pointer-events: none;
+    }
+    .hero-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255, 255, 255, 0.85);
+      border: 1px solid var(--primary-100);
+      padding: 0.35rem 0.9rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 1.25rem;
+    }
+    .hero-h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--slate-900);
+      line-height: 1.15;
+      letter-spacing: -1px;
+      max-width: 820px;
+      margin-bottom: 1.25rem;
+    }
+    .hero-h1 span.highlight {
+      background: linear-gradient(120deg, var(--primary) 0%, #9333ea 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero-p {
+      font-size: 1.125rem;
+      color: var(--slate-600);
+      max-width: 680px;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    /* 3 Pillars Grid */
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    .pillar-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+      transition: all 0.25s ease;
+      position: relative;
+    }
+    .pillar-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary-100);
+    }
+    .pillar-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .pillar-card h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 0.6rem;
+    }
+    .pillar-card p {
+      color: var(--slate-600);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+    .pillar-link {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      cursor: pointer;
+    }
+
+    /* Priya Story Pathway Preview */
+    .story-walkthrough-box {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      box-shadow: var(--shadow-card);
+    }
+    .story-walkthrough-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 2rem;
+    }
+    .step-journey-timeline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      position: relative;
+    }
+    .timeline-step {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      position: relative;
+    }
+    .timeline-step.active {
+      background: var(--primary-50);
+      border-color: var(--primary-100);
+    }
+    .step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 9999px;
+      background: var(--primary);
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+    .timeline-step h4 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--slate-900);
+      margin-bottom: 0.35rem;
+    }
+    .timeline-step p {
+      font-size: 0.8rem;
+      color: var(--slate-600);
+      line-height: 1.45;
+    }
+
+    /* ==========================================================================
+       AI CAREER ASSISTANT
+       ========================================================================== */
+    .ai-workspace {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: 1.5rem;
+      height: calc(100vh - 230px);
+      min-height: 600px;
+    }
+    .ai-sidebar {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      overflow-y: auto;
+    }
+    .ai-chat-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .ai-chat-header {
+      padding: 1.25rem 1.75rem;
+      border-bottom: 1px solid var(--slate-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(to right, #ffffff, var(--primary-50));
+    }
+    .ai-profile-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .ai-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.35rem;
+      box-shadow: 0 4px 8px rgba(79, 70, 229, 0.25);
+    }
+    .chat-messages-scroll {
+      flex: 1;
+      padding: 1.75rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      background: #fafafa;
+    }
+    .chat-message {
+      display: flex;
+      gap: 0.85rem;
+      max-width: 82%;
+    }
+    .chat-message.bot {
+      align-self: flex-start;
+    }
+    .chat-message.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+    .bubble {
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius-lg);
+      font-size: 0.92rem;
+      line-height: 1.6;
+      box-shadow: var(--shadow-subtle);
+    }
+    .bot .bubble {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      color: var(--slate-800);
+      border-bottom-left-radius: 4px;
+    }
+    .user .bubble {
+      background: var(--primary);
+      color: var(--white);
+      border-bottom-right-radius: 4px;
+    }
+    .recommendation-result-box {
+      margin-top: 1rem;
+      background: var(--slate-50);
+      border: 1px solid var(--primary-100);
+      border-radius: var(--radius-md);
+      padding: 1.15rem;
+    }
+    .rec-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--slate-200);
+    }
+    .rec-item:last-child { border-bottom: none; }
+    .rec-match-score {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--emerald);
+      background: var(--emerald-50);
+      padding: 0.2rem 0.6rem;
+      border-radius: 9999px;
+    }
+
+    .prompt-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+    .prompt-chip {
+      background: var(--primary-50);
+      color: var(--primary);
+      border: 1px solid var(--primary-100);
+      padding: 0.4rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .prompt-chip:hover {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+    }
+
+    .ai-chat-input-row {
+      padding: 1.15rem 1.5rem;
+      border-top: 1px solid var(--slate-200);
+      background: var(--white);
+      display: flex;
+      gap: 0.75rem;
+    }
+    .chat-text-input {
+      flex: 1;
+      padding: 0.75rem 1.15rem;
+      border: 1px solid var(--slate-300);
+      border-radius: var(--radius-md);
+      font-size: 0.92rem;
+      transition: border-color 0.15s;
+    }
+    .chat-text-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+    }
+
+    /* ==========================================================================
+       CAREER EXPLORATION
+       ========================================================================== */
+    .filter-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      background: var(--white);
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--slate-200);
+      box-shadow: var(--shadow-subtle);
+      margin-bottom: 2rem;
+    }
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .filter-pill {
+      background: var(--slate-100);
+      color: var(--slate-600);
+      border: 1px solid transparent;
+      padding: 0.45rem 1rem;
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-pill.active {
+      background: var(--primary);
+      color: var(--white);
+    }
+    .search-input-box {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--slate-300);
+      border-radius: var(--radius-md);
+      font-size: 0.88rem;
+      width: 260px;
+    }
+
+    .careers-catalog {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+      gap: 1.5rem;
+    }
+    .career-item-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .career-item-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--primary-100);
+    }
+    .career-header-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.75rem;
+    }
+    .career-item-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-top: 0.35rem;
+    }
+    .career-item-desc {
+      color: var(--slate-600);
+      font-size: 0.9rem;
+      line-height: 1.55;
+      margin-bottom: 1.25rem;
+    }
+    .tools-tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+    .tool-tag {
+      background: var(--slate-100);
+      color: var(--slate-700);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-sm);
+    }
+    .career-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 1rem;
+      border-top: 1px solid var(--slate-100);
+      font-size: 0.85rem;
+    }
+
+    /* ==========================================================================
+       CAREER REALITY CHECK
+       ========================================================================== */
+    .reality-comparison-container {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .reality-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+    }
+    .reality-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--slate-200);
+    }
+    .reality-split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    .reality-column {
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+    }
+    .reality-column.positives {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+    }
+    .reality-column.challenges {
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+    }
+    .reality-col-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 800;
+      font-size: 1.05rem;
+      margin-bottom: 1rem;
+    }
+    .reality-col-header.pos { color: #166534; }
+    .reality-col-header.neg { color: #9f1239; }
+    .reality-points-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .reality-points-list li {
+      font-size: 0.88rem;
+      line-height: 1.5;
+      display: flex;
+      align-items: flex-start;
+      gap: 0.6rem;
+    }
+
+    /* ==========================================================================
+       CAREER JOURNEY STORIES
+       ========================================================================== */
+    .stories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+      gap: 1.75rem;
+    }
+    .story-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .story-author-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .story-avatar {
+      width: 54px;
+      height: 54px;
+      border-radius: 9999px;
+      font-weight: 800;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .story-meta h3 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--slate-900);
+    }
+    .story-meta span {
+      font-size: 0.82rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .story-callout {
+      background: var(--slate-50);
+      border-left: 3px solid var(--primary);
+      padding: 0.85rem 1rem;
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      font-style: italic;
+      font-size: 0.88rem;
+      color: var(--slate-700);
+      margin-bottom: 1.25rem;
+    }
+    .story-breakdown {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      font-size: 0.86rem;
+      color: var(--slate-600);
+      margin-bottom: 1.5rem;
+    }
+    .story-breakdown strong {
+      color: var(--slate-800);
+    }
+
+    /* ==========================================================================
+       FIND AN EXPERT & MENTORSHIP
+       ========================================================================== */
+    .experts-catalog-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 1.75rem;
+    }
+    .expert-profile-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .expert-head {
+      display: flex;
+      gap: 1.2rem;
+      margin-bottom: 1.25rem;
+    }
+    .expert-avatar-lg {
+      width: 68px;
+      height: 68px;
+      border-radius: 9999px;
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .expert-title-block h3 {
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .verified-icon {
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+    .expert-title-block .headline {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin: 0.15rem 0;
+    }
+    .expert-title-block .company-exp {
+      font-size: 0.78rem;
+      color: var(--slate-500);
+    }
+    .expert-bio {
+      font-size: 0.88rem;
+      color: var(--slate-600);
+      line-height: 1.55;
+      margin-bottom: 1.25rem;
+    }
+    .expert-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.5rem;
+    }
+    .topic-badge {
+      background: var(--slate-100);
+      color: var(--slate-700);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 0.25rem 0.6rem;
+      border-radius: 9999px;
+    }
+    .expert-footer-rates {
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--slate-200);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .rate-info strong {
+      font-size: 1.1rem;
+      color: var(--slate-900);
+    }
+    .rate-info small {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--slate-500);
+    }
+
+    /* ==========================================================================
+       MY CAREER ROADMAP
+       ========================================================================== */
+    .roadmap-wrapper {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 2rem;
+    }
+    .roadmap-summary-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+      height: fit-content;
+      position: sticky;
+      top: 90px;
+    }
+    .progress-radial-box {
+      text-align: center;
+      margin: 1.5rem 0;
+    }
+    .progress-percent-large {
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--primary);
+      line-height: 1;
+    }
+    .roadmap-target-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 0.25rem;
+    }
+    .roadmap-milestones-container {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 2.25rem;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .milestone-item {
+      display: flex;
+      gap: 1.25rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid var(--slate-200);
+      transition: all 0.2s;
+    }
+    .milestone-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .milestone-check {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      border: 2px solid var(--slate-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+      transition: all 0.2s;
+    }
+    .milestone-check.checked {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--white);
+    }
+    .milestone-content {
+      flex: 1;
+    }
+    .milestone-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.35rem;
+    }
+    .milestone-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--slate-900);
+    }
+    .milestone-item.done .milestone-title {
+      text-decoration: line-through;
+      color: var(--slate-400);
+    }
+    .milestone-desc {
+      font-size: 0.88rem;
+      color: var(--slate-600);
+      line-height: 1.5;
+    }
+
+    /* ==========================================================================
+       EXPERT DASHBOARD (ARJUN'S PORTAL)
+       ========================================================================== */
+    .expert-dashboard-layout {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    .dashboard-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+    }
+    .metric-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-card);
+    }
+    .metric-val {
+      font-size: 1.85rem;
+      font-weight: 900;
+      color: var(--slate-900);
+      margin: 0.25rem 0;
+    }
+    .metric-label {
+      font-size: 0.8rem;
+      color: var(--slate-500);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .expert-dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1.5rem;
+    }
+    .dashboard-panel {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-xl);
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+    }
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--slate-200);
+    }
+    .request-item {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius-md);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+    .request-item.pending {
+      border-left: 4px solid var(--amber);
+    }
+    .request-item.confirmed {
+      border-left: 4px solid var(--emerald);
+    }
+    .req-student-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .req-student-name {
+      font-weight: 800;
+      color: var(--slate-900);
+      font-size: 1rem;
+    }
+    .req-message {
+      font-size: 0.88rem;
+      color: var(--slate-600);
+      background: var(--white);
+      padding: 0.75rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--slate-200);
+    }
+    .req-actions {
+      display: flex;
+      gap: 0.5rem;
+      justify-content: flex-end;
+    }
+
+    /* ==========================================================================
+       MODALS SYSTEM
+       ========================================================================== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-overlay.active {
+      display: flex;
+      animation: modalFadeIn 0.2s ease-out;
+    }
+    .modal-window {
+      background: var(--white);
+      border-radius: var(--radius-xl);
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-popover);
+      padding: 2.25rem;
+      position: relative;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: var(--slate-100);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 9999px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--slate-600);
+    }
+    .modal-close-btn:hover { background: var(--slate-200); }
+
+    /* Form Fields */
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--slate-800);
+      margin-bottom: 0.4rem;
+    }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--slate-300);
+      border-radius: var(--radius-md);
+      font-size: 0.9rem;
+      transition: border-color 0.15s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+    }
+
+    /* Slots Picker */
+    .slots-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    .slot-btn {
+      padding: 0.6rem;
+      border: 1px solid var(--slate-200);
+      background: var(--slate-50);
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.15s;
+    }
+    .slot-btn:hover {
+      background: var(--primary-50);
+      border-color: var(--primary-100);
+    }
+    .slot-btn.selected {
+      background: var(--primary);
+      color: var(--white);
+      border-color: var(--primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .pillars-grid, .timeline-step-grid { grid-template-columns: 1fr; }
+      .step-journey-timeline { grid-template-columns: 1fr 1fr; }
+      .ai-workspace { grid-template-columns: 1fr; height: auto; }
+      .reality-split-grid { grid-template-columns: 1fr; }
+      .roadmap-wrapper { grid-template-columns: 1fr; }
+      .roadmap-summary-card { position: static; }
+      .expert-dashboard-grid { grid-template-columns: 1fr; }
+      .dashboard-metrics { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      nav.main-nav { display: none; }
+      .step-journey-timeline { grid-template-columns: 1fr; }
+      .hero-h1 { font-size: 2.15rem; }
+      .hero-box { padding: 2rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==========================================================================
+       TOP BAR: ROLE SWITCHER (Priya: Student vs Arjun: Expert)
+       ========================================================================== -->
+  <div class="top-role-bar">
+    <div class="role-persona-info">
+      <span style="display:inline-block; width:8px; height:8px; border-radius:99px; background:#10b981;"></span>
+      <span id="role-status-text">Active Role: <strong>Priya (Student Explorer)</strong></span>
+    </div>
+    <div class="role-toggle-group">
+      <button class="role-toggle-btn active" id="btn-role-student" onclick="setRole('student')">
+        🎓 Student View (Priya)
+      </button>
+      <button class="role-toggle-btn" id="btn-role-expert" onclick="setRole('expert')">
+        💼 Expert View (Arjun)
+      </button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       GLOBAL NAVIGATION HEADER
+       ========================================================================== */ -->
+  <header>
+    <div class="header-container">
+      <div class="brand" onclick="navigateTo('home')">
+        <div class="brand-icon">EW</div>
+        <div class="brand-text">
+          <h1>Enlighten Way</h1>
+          <span>Career Mentorship Ecosystem</span>
+        </div>
+      </div>
+
+      <nav class="main-nav" id="student-nav">
+        <button class="nav-btn active" id="nav-home" onclick="navigateTo('home')">Home</button>
+        <button class="nav-btn" id="nav-assistant" onclick="navigateTo('assistant')">✨ AI Assistant</button>
+        <button class="nav-btn" id="nav-careers" onclick="navigateTo('careers')">Careers</button>
+        <button class="nav-btn" id="nav-reality" onclick="navigateTo('reality')">Reality Check</button>
+        <button class="nav-btn" id="nav-stories" onclick="navigateTo('stories')">Stories</button>
+        <button class="nav-btn" id="nav-experts" onclick="navigateTo('experts')">Find an Expert</button>
+        <button class="nav-btn" id="nav-roadmap" onclick="navigateTo('roadmap')">My Roadmap</button>
+      </nav>
+
+      <nav class="main-nav" id="expert-nav" style="display:none;">
+        <button class="nav-btn active" id="nav-expert-dashboard" onclick="navigateTo('expert-dashboard')">📊 Mentorship Dashboard</button>
+        <button class="nav-btn" id="nav-expert-requests" onclick="navigateTo('expert-dashboard')">
+          Requests <span class="badge-counter" id="expert-pending-count">1</span>
+        </button>
+      </nav>
+
+      <div class="user-profile-badge" onclick="openProfileModal()">
+        <div class="user-avatar-tiny" id="header-avatar">P</div>
+        <div class="user-name-role">
+          <strong id="header-username">Priya Sharma</strong>
+          <small id="header-subtext">Higher Sec. / Exploring</small>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       LIVE TOAST NOTIFICATION CONTAINER
+       ========================================================================== -->
+  <div id="live-toast">
+    <span id="toast-icon">🔔</span>
+    <div id="toast-message">Notification message</div>
+  </div>
+
+  <!-- ==========================================================================
+       MAIN CONTENT APPLICATION TABS
+       ========================================================================== -->
+  <main>
+
+    <!-- ------------------------------------------------------------------------
+         1. HOME SECTION (Priya's Journey Context)
+         ------------------------------------------------------------------------ -->
+    <section id="section-home" class="view-section active">
+      <div class="hero-box">
+        <div class="hero-meta">
+          <span>✨</span> AI-Driven Exploration + Human Practitioner Truth
+        </div>
+        <h1 class="hero-h1">
+          Confused About Your Career?<br>
+          <span class="highlight">Discover Yourself. Learn the Reality.</span>
+        </h1>
+        <p class="hero-p">
+          Join Priya and thousands of students navigating the transition from education to purposeful careers. Stop guessing based on buzzwords; explore vetted responsibilities, authentic market realities, and 1-on-1 mentor guidance.
+        </p>
+        <div class="hero-actions">
+          <button class="btn btn-primary" onclick="navigateTo('assistant')">
+            ✨ Chat with AI Assistant
+          </button>
+          <button class="btn btn-outline" onclick="navigateTo('careers')">
+            🔍 Explore Professions
+          </button>
+          <button class="btn btn-secondary" onclick="navigateTo('experts')">
+            🤝 Book 1-on-1 with Arjun
+          </button>
+        </div>
+      </div>
+
+      <!-- The 3 Pillars -->
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <div class="pillar-icon-box" style="background:#e0e7ff; color:#4338ca;">🤖</div>
+          <h3>1. AI Interest Discovery</h3>
+          <p>Uncover which domains genuinely fit your psychological strengths, preferred work settings, and learning background.</p>
+          <span class="pillar-link" onclick="navigateTo('assistant')">Try Assistant Questionnaire →</span>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon-box" style="background:#ecfdf5; color:#059669;">⚖️</div>
+          <h3>2. Career Reality Checks</h3>
+          <p>Balanced insights revealing both high-paying perks and real daily stress points—from deadline pressure to entry-level saturation.</p>
+          <span class="pillar-link" onclick="navigateTo('reality')">Explore Unfiltered Realities →</span>
+        </div>
+        <div class="pillar-card">
+          <div class="pillar-icon-box" style="background:#fffbeb; color:#d97706;">👥</div>
+          <h3>3. Practitioner Mentorship</h3>
+          <p>Direct chat and video consultations with verified professionals like Arjun to plan your portfolio and interview strategy.</p>
+          <span class="pillar-link" onclick="navigateTo('experts')">Connect with Practitioners →</span>
+        </div>
+      </div>
+
+      <!-- Priya's Walkthrough Flow -->
+      <div class="story-walkthrough-box">
+        <div class="story-walkthrough-header">
+          <div>
+            <span class="view-tag">Interactive User Flow</span>
+            <h3 style="font-size:1.45rem; font-weight:800; color:var(--slate-900);">How Priya Reaches Clarity on Enlighten Way</h3>
+          </div>
+          <span class="badge badge-indigo">End-to-End Guided Journey</span>
+        </div>
+
+        <div class="step-journey-timeline">
+          <div class="timeline-step active">
+            <div class="step-num">1</div>
+            <h4>Self-Assessment</h4>
+            <p>Priya answers curated prompt questions about her interests in business workflows, technology, and collaboration.</p>
+          </div>
+          <div class="timeline-step">
+            <div class="step-num">2</div>
+            <h4>AI Recommendations</h4>
+            <p>Enlighten AI matches her 94% with Business Analysis and 88% with Data Analytics, providing actionable justification.</p>
+          </div>
+          <div class="timeline-step">
+            <div class="step-num">3</div>
+            <h4>Reality Check & Story</h4>
+            <p>She analyzes the stress points of Business Analysis and reads Meera's journey transitioning from non-CS.</p>
+          </div>
+          <div class="timeline-step">
+            <div class="step-num">4</div>
+            <h4>1-on-1 Mentorship</h4>
+            <p>She books a consultation with Arjun (Senior BA), receives personalized feedback, and initiates her roadmap.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------------
+         2. AI CAREER ASSISTANT
+         ------------------------------------------------------------------------ -->
+    <section id="section-assistant" class="view-section">
+      <div class="view-header">
+        <span class="view-tag">Personalized Evaluation</span>
+        <h2 class="view-title">Enlighten AI Assistant</h2>
+        <p class="view-desc">Ask specific career questions or take the structured interest assessment to find your ideal role.</p>
+      </div>
+
+      <div class="ai-workspace">
+        <!-- Sidebar context -->
+        <div class="ai-sidebar">
+          <div>
+            <h4 style="font-size:0.95rem; font-weight:800; color:var(--slate-900); margin-bottom:0.5rem;">Priya's Profile Focus</h4>
+            <p style="font-size:0.8rem; color:var(--slate-500); margin-bottom:1rem;">The AI factors in your stream and academic background.</p>
+            <div style="background:var(--slate-50); border:1px solid var(--slate-200); border-radius:var(--radius-sm); padding:0.85rem; font-size:0.8rem;">
+              <p><strong>Education:</strong> Higher Secondary (12th)</p>
+              <p><strong>Stream:</strong> Science / Exploratory</p>
+              <p><strong>Dilemma:</strong> Unsure whether to pick pure engineering or business/analytics.</p>
+            </div>
+          </div>
+
+          <div>
+            <h4 style="font-size:0.9rem; font-weight:800; color:var(--slate-900); margin-bottom:0.5rem;">Guided Question Flow</h4>
+            <div style="display:flex; flex-direction:column; gap:0.4rem;">
+              <button class="btn btn-outline btn-sm" style="text-align:left; justify-content:flex-start;" onclick="simulateAIPrompt('What subjects and activities do I enjoy most?')">
+                1. Enjoyed Subjects
+              </button>
+              <button class="btn btn-outline btn-sm" style="text-align:left; justify-content:flex-start;" onclick="simulateAIPrompt('Do I prefer data, people, code, or hardware circuits?')">
+                2. Working Preferences
+              </button>
+              <button class="btn btn-outline btn-sm" style="text-align:left; justify-content:flex-start;" onclick="simulateAIPrompt('What kind of work environment fits my personality?')">
+                3. Work Environment
+              </button>
+              <button class="btn btn-secondary btn-sm" onclick="evaluateFullRecommendations()">
+                🎯 Generate Role Recommendations
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Workspace -->
+        <div class="ai-chat-card">
+          <div class="ai-chat-header">
+            <div class="ai-profile-badge">
+              <div class="ai-avatar">🤖</div>
+              <div>
+                <strong style="font-size:0.95rem; color:var(--slate-900); display:block;">Enlighten Career Intelligence</strong>
+                <small style="color:var(--emerald); font-weight:700;">● Active Career Assessment Model</small>
+              </div>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="resetAIChat()">Reset Chat</button>
+          </div>
+
+          <div class="chat-messages-scroll" id="ai-chat-container">
+            <div class="chat-message bot">
+              <div class="bubble">
+                Hello Priya! I'm your dedicated career guidance assistant. I evaluate your interests, educational background, and strengths to recommend professions that suit you.<br><br>
+                To get started, <strong>which activities or types of problem-solving do you enjoy most?</strong>
+                <div class="prompt-suggestions">
+                  <span class="prompt-chip" onclick="simulateAIPrompt('I like analyzing numbers, patterns, and improving team workflows.')">📊 Business & Data Analysis</span>
+                  <span class="prompt-chip" onclick="simulateAIPrompt('I enjoy hands-on electronics, microcontrollers, and circuit hardware.')">⚡ Hardware & Embedded Systems</span>
+                  <span class="prompt-chip" onclick="simulateAIPrompt('I love creative UI design, writing code, and visual apps.')">💻 Software & UI Development</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="ai-chat-input-row">
+            <input type="text" id="ai-user-text" class="chat-text-input" placeholder="Type your honest answers, passions, or questions..." onkeydown="if(event.key==='Enter') submitUserChatMessage()">
+            <button class="btn btn-primary" onclick="submitUserChatMessage()">Send</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------------
+         3. CAREER EXPLORATION
+         ------------------------------------------------------------------------ -->
+    <section id="section-careers" class="view-section">
+      <div class="view-header">
+        <span class="view-tag">Database of Opportunities</span>
+        <h2 class="view-title">Career Exploration Directory</h2>
+        <p class="view-desc">Deep dive into verified role profiles, required toolchains, entry pathways, and market expectations.</p>
+      </div>
+
+      <!-- Filters Toolbar -->
+      <div class="filter-toolbar">
+        <div class="filter-pills">
+          <button class="filter-pill active" onclick="filterCareers('all', this)">All Domains (6)</button>
+          <button class="filter-pill" onclick="filterCareers('tech', this)">Software & Data</button>
+          <button class="filter-pill" onclick="filterCareers('business', this)">Business & Management</button>
+          <button class="filter-pill" onclick="filterCareers('core', this)">Hardware & Core Engg</button>
+        </div>
+        <input type="text" id="career-search-box" class="search-input-box" placeholder="Search title or skill (e.g. SQL, C++)..." oninput="searchCareerCards()">
+      </div>
+
+      <!-- Careers Catalog Grid -->
+      <div class="careers-catalog" id="careers-grid-container">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------------
+         4. CAREER REALITY CHECK
+         ------------------------------------------------------------------------ -->
+    <section id="section-reality" class="view-section">
+      <div class="view-header">
+        <span class="view-tag">Unfiltered Industry Truths</span>
+        <h2 class="view-title">Career Reality Checks</h2>
+        <p class="view-desc">Understand both the exciting privileges and the genuine stressors of a job before committing years of education.</p>
+      </div>
+
+      <div class="reality-comparison-container" id="reality-list-container">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------------
+         5. CAREER JOURNEY STORIES
+         ------------------------------------------------------------------------ -->
+    <section id="section-stories" class="view-section">
+      <div class="view-header">
+        <span class="view-tag">Real Practitioner Pathways</span>
+        <h2 class="view-title">Career Journey Stories</h2>
+        <p class="view-desc">Learn how real individuals tackled confusion, overcame educational setbacks, and established their careers.</p>
+      </div>
+
+      <div class="stories-grid">
+        <!-- Story 1: Meera (BA) -->
+        <div class="story-card">
+          <div>
+            <div class="story-author-header">
+              <div class="story-avatar" style="background:linear-gradient(135deg, #ec4899, #8b5cf6);">MS</div>
+              <div class="story-meta">
+                <h3>Meera Swaminathan</h3>
+                <span>Business Analyst @ FinTech Scaleup</span>
+              </div>
+            </div>
+            <div class="story-callout">
+              “I had zero computer science background. What got me hired was my ability to ask stakeholders the right questions and translate messy numbers into clear diagrams.”
+            </div>
+            <div class="story-breakdown">
+              <div><strong>Background:</strong> B.Com graduate who initially felt left behind by the software boom.</div>
+              <div><strong>The Turning Point:</strong> Learned Excel modeling and basic SQL on weekends. Created a mock requirement document for an e-commerce refund system.</div>
+              <div><strong>Biggest Challenge:</strong> Surviving 8 rejection emails before finding a team that valued problem communication over raw programming.</div>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="navigateTo('experts')">Find Mentors in Business Analysis →</button>
+        </div>
+
+        <!-- Story 2: Vignesh (Embedded / IoT) -->
+        <div class="story-card">
+          <div>
+            <div class="story-author-header">
+              <div class="story-avatar" style="background:linear-gradient(135deg, #3b82f6, #06b6d4);">VR</div>
+              <div class="story-meta">
+                <h3>Vignesh Raman</h3>
+                <span>Firmware & IoT Engineer @ Smart Mobility</span>
+              </div>
+            </div>
+            <div class="story-callout">
+              “In college, I was tired of theoretical exams. Building an automated battery monitoring rig for my senior project changed everything.”
+            </div>
+            <div class="story-breakdown">
+              <div><strong>Background:</strong> EEE graduate struggling with abstract textbook mathematics.</div>
+              <div><strong>The Turning Point:</strong> Bought an affordable ESP32 microcontroller board and built 3 hands-on firmware prototypes on GitHub.</div>
+              <div><strong>Biggest Challenge:</strong> Hardware debugging requires extreme patience; hardware bugs cannot simply be patched with an instantaneous reload.</div>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="navigateTo('experts')">Find Hardware/Embedded Mentors →</button>
+        </div>
+
+        <!-- Story 3: Ananya (Data Analytics) -->
+        <div class="story-card">
+          <div>
+            <div class="story-author-header">
+              <div class="story-avatar" style="background:linear-gradient(135deg, #10b981, #059669);">AD</div>
+              <div class="story-meta">
+                <h3>Ananya Desai</h3>
+                <span>Data Specialist @ HealthTech</span>
+              </div>
+            </div>
+            <div class="story-callout">
+              “I spent months memorizing complex AI theorems. In the real world, 80% of my time is cleaning messy healthcare datasets so physicians can understand them.”
+            </div>
+            <div class="story-breakdown">
+              <div><strong>Background:</strong> Statistics and Economics background.</div>
+              <div><strong>The Turning Point:</strong> Mastered data storytelling using Tableau and basic Python Pandas. Built a public dashboard analyzing hospital bed allocations.</div>
+              <div><strong>Biggest Challenge:</strong> Standing out against thousands of applicants who only had generic certificate courses.</div>
+            </div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="navigateTo('careers')">Explore Data Careers →</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------------
+         6. FIND AN EXPERT & MENTORSHIP
+         ------------------------------------------------------------------------ -->
+    <section id="section-experts" class="view-section">
+      <div class="view-header">
+        <span class="view-tag">Verified Practitioners</span>
+        <h2 class="view-title">Connect with Industry Experts</h2>
+        <p class="view-desc">Have your portfolio audited, ask role-specific questions, and obtain tactical career strategy through 1-on-1 consultations.</p>
+      </div>
+
+      <div class="experts-catalog-grid" id="experts-catalog-container">
+        <!-- Injected via JavaScript -->
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------------
+         7. MY CAREER ROADMAP
+         ------------------------------------------------------------------------ -->
+    <section id="section-roadmap" class="view-section">
+      <div class="view-header">
+        <span class="view-tag">Actionable Milestones</span>
+        <h2 class="view-title">My Career Roadmap</h2>
+        <p class="view-desc">Transform advice into structured, measurable steps. Check off completed items to track your overall progress toward your career target.</p>
+      </div>
+
+      <div class="roadmap-wrapper">
+        <div class="roadmap-summary-card">
+          <span class="badge badge-indigo">Active Target Goal</span>
+          <div class="roadmap-target-title" id="roadmap-role-title">Business Analyst</div>
+          <p style="font-size:0.85rem; color:var(--slate-500); margin-bottom:1.5rem;">Target Transition Window: 6 - 9 Months</p>
+
+          <div class="progress-radial-box">
+            <div class="progress-percent-large" id="roadmap-percent-display">17%</div>
+            <small style="font-weight:700; color:var(--slate-500); text-transform:uppercase; font-size:0.75rem;">Completion Progress</small>
+          </div>
+
+          <div style="background:var(--slate-50); border:1px solid var(--slate-200); border-radius:var(--radius-md); padding:1rem; font-size:0.82rem; margin-bottom:1.25rem;">
+            <p><strong>Next Priority Task:</strong></p>
+            <span id="roadmap-next-task-name" style="color:var(--primary); font-weight:700;">Step 2: Foundational Excel & SQL Mastery</span>
+          </div>
+
+          <button class="btn btn-outline btn-sm" style="width:100%;" onclick="openCustomMilestoneModal()">+ Add Custom Milestone</button>
+        </div>
+
+        <div class="roadmap-milestones-container" id="milestones-list-container">
+          <!-- Injected via JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------------------------------------------------
+         8. EXPERT DASHBOARD (ARJUN'S VIEW)
+         ------------------------------------------------------------------------ -->
+    <section id="section-expert-dashboard" class="view-section">
+      <div class="view-header">
+        <span class="view-tag">Mentor Management Portal</span>
+        <h2 class="view-title">Arjun's Mentorship Console</h2>
+        <p class="view-desc">Review inbound student appointment requests, adjust consultation pricing, and manage your availability schedule.</p>
+      </div>
+
+      <div class="expert-dashboard-layout">
+        <div class="dashboard-metrics">
+          <div class="metric-card">
+            <div class="metric-label">Active Requests</div>
+            <div class="metric-val" id="metric-active-requests">1</div>
+            <small style="color:var(--amber); font-weight:700;">Needs confirmation</small>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Confirmed Sessions</div>
+            <div class="metric-val" id="metric-confirmed-sessions">3</div>
+            <small style="color:var(--emerald); font-weight:700;">This week</small>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Total Guided Students</div>
+            <div class="metric-val">34</div>
+            <small style="color:var(--slate-500); font-weight:600;">Since joining</small>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Consultation Revenue</div>
+            <div class="metric-val">₹17,000</div>
+            <small style="color:var(--emerald); font-weight:700;">Deposited</small>
+          </div>
+        </div>
+
+        <div class="expert-dashboard-grid">
+          <!-- Left: Pending & Confirmed Inbound Requests -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 style="font-size:1.15rem; font-weight:800; color:var(--slate-900);">Student Appointment Requests</h3>
+              <span class="badge badge-amber" id="pending-badge-text">1 Pending Action</span>
+            </div>
+
+            <div id="expert-requests-container">
+              <!-- Rendered via JavaScript -->
+            </div>
+          </div>
+
+          <!-- Right: Expert Settings & Schedule Status -->
+          <div class="dashboard-panel">
+            <div class="panel-header">
+              <h3 style="font-size:1.15rem; font-weight:800; color:var(--slate-900);">Consultation Settings</h3>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Video Rate (30 mins)</label>
+              <input type="text" class="form-input" value="₹500" id="arjun-video-rate-input" onchange="updateArjunRate(this.value)">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Chat Q&A Rate</label>
+              <input type="text" class="form-input" value="₹250">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Mentorship Status</label>
+              <div style="display:flex; align-items:center; gap:0.5rem; background:#ecfdf5; padding:0.6rem; border-radius:8px; border:1px solid #a7f3d0; font-size:0.85rem; color:#047857; font-weight:700;">
+                <span>●</span> Accepting New Students
+              </div>
+            </div>
+
+            <div style="border-top:1px solid var(--slate-200); padding-top:1rem; margin-top:1rem;">
+              <h4 style="font-size:0.85rem; font-weight:800; margin-bottom:0.5rem;">Verified Credentials</h4>
+              <p style="font-size:0.8rem; color:var(--slate-500); line-height:1.4;">
+                Senior Business Analyst at FinTech Corp.<br>
+                Certified Scrum Product Owner (CSPO).<br>
+                Background check verified on Enlighten Way.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       MODALS: CAREER DETAILS, BOOKING, PROFILE, CUSTOM MILESTONES
+       ========================================================================== -->
+
+  <!-- 1. Career Deep Dive Modal -->
+  <div class="modal-overlay" id="modal-career-detail">
+    <div class="modal-window">
+      <button class="modal-close-btn" onclick="closeModal('modal-career-detail')">&times;</button>
+      <div id="modal-career-body">
+        <!-- Dynamic Content -->
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Appointment Booking Modal -->
+  <div class="modal-overlay" id="modal-booking">
+    <div class="modal-window">
+      <button class="modal-close-btn" onclick="closeModal('modal-booking')">&times;</button>
+      <h3 style="font-size:1.4rem; font-weight:800; color:var(--slate-900); margin-bottom:0.35rem;">
+        Book Mentorship Consultation
+      </h3>
+      <p style="font-size:0.88rem; color:var(--slate-600); margin-bottom:1.5rem;" id="booking-mentor-subtitle">
+        Schedule your session with Arjun Kumar.
+      </p>
+
+      <form onsubmit="handleBookingSubmission(event)">
+        <div class="form-group">
+          <label class="form-label">Consultation Mode</label>
+          <select class="form-select" id="booking-mode-select" onchange="updateBookingPriceDisplay()">
+            <option value="video">1-on-1 Video Consultation (30 mins) - ₹500</option>
+            <option value="chat">Written Portfolio & Doubt Chat Review - ₹250</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Pick Date</label>
+          <input type="date" class="form-input" id="booking-date" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Available Time Slots</label>
+          <div class="slots-grid">
+            <div class="slot-btn selected" onclick="selectSlot(this)">5:00 PM - 5:30 PM</div>
+            <div class="slot-btn" onclick="selectSlot(this)">6:00 PM - 6:30 PM</div>
+            <div class="slot-btn" onclick="selectSlot(this)">7:30 PM - 8:00 PM</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">What specific doubts do you want answered?</label>
+          <textarea class="form-textarea" rows="3" id="booking-doubts" placeholder="e.g., I'm a higher secondary student confused between Business Analysis and Data Science. I want advice on the best college stream and initial projects." required></textarea>
+        </div>
+
+        <div style="background:var(--slate-50); padding:1rem; border-radius:var(--radius-md); border:1px solid var(--slate-200); margin-bottom:1.5rem; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <span style="font-size:0.75rem; text-transform:uppercase; font-weight:700; color:var(--slate-500);">Session Fee</span>
+            <div style="font-size:1.25rem; font-weight:900; color:var(--slate-900);" id="booking-fee-text">₹500</div>
+          </div>
+          <span class="badge badge-emerald">Direct Student Guarantee</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width:100%; padding:0.85rem;">
+          Confirm & Send Appointment Request
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3. Profile / Auth Modal -->
+  <div class="modal-overlay" id="modal-profile">
+    <div class="modal-window">
+      <button class="modal-close-btn" onclick="closeModal('modal-profile')">&times;</button>
+      <h3 style="font-size:1.35rem; font-weight:800; color:var(--slate-900); margin-bottom:0.25rem;">Student Profile & Background</h3>
+      <p style="font-size:0.85rem; color:var(--slate-600); margin-bottom:1.5rem;">This information powers your AI Career Assistant recommendations.</p>
+
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input type="text" class="form-input" id="profile-name-input" value="Priya Sharma">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Current Academic Level</label>
+        <select class="form-select" id="profile-level-select">
+          <option selected>Higher Secondary (11th / 12th)</option>
+          <option>Undergraduate (1st / 2nd Year)</option>
+          <option>Final Year College</option>
+          <option>Career Transitioner</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Stream / Branch</label>
+        <input type="text" class="form-input" id="profile-stream-input" value="General Science & Mathematics">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Career Confusion Level</label>
+        <select class="form-select">
+          <option>High – Unsure between multiple domains</option>
+          <option>Moderate – Narrowed down to 2 fields</option>
+          <option>Low – Ready for actionable roadmaps</option>
+        </select>
+      </div>
+
+      <button class="btn btn-primary" style="width:100%;" onclick="saveProfileChanges()">Save Profile Details</button>
+    </div>
+  </div>
+
+  <!-- 4. Custom Milestone Modal -->
+  <div class="modal-overlay" id="modal-custom-milestone">
+    <div class="modal-window">
+      <button class="modal-close-btn" onclick="closeModal('modal-custom-milestone')">&times;</button>
+      <h3 style="font-size:1.35rem; font-weight:800; color:var(--slate-900); margin-bottom:0.5rem;">Add Custom Goal</h3>
+      <div class="form-group">
+        <label class="form-label">Milestone Title</label>
+        <input type="text" class="form-input" id="custom-task-title" placeholder="e.g. Build an Arduino smart home sensor prototype">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Description / Resources</label>
+        <textarea class="form-textarea" id="custom-task-desc" rows="2" placeholder="Notes on online tutorials, target completion date, etc."></textarea>
+      </div>
+      <button class="btn btn-primary" style="width:100%;" onclick="addCustomMilestone()">Add to My Roadmap</button>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       APPLICATION LOGIC & CORE JAVASCRIPT
+       ========================================================================== -->
+  <script>
+    /* ==========================================================================
+       1. DATA STRUCTURES (Careers, Mentors, Milestones, Reality Checks)
+       ========================================================================== */
+    const CAREER_DATABASE = [
+      {
+        id: "ba",
+        title: "Business Analyst",
+        domain: "business",
+        badge: "Management & Tech",
+        badgeClass: "badge-indigo",
+        shortDesc: "Bridges business problems and digital solutions by evaluating stakeholder requirements and designing optimized process workflows.",
+        tools: ["Excel", "SQL", "Power BI", "Jira", "User Stories", "Process Flow"],
+        salaryRange: "₹5.5L - ₹18L / annum",
+        demand: "Very High across Banking, IT, Retail",
+        responsibilities: [
+          "Interview stakeholders to discover inefficiencies in daily business operations.",
+          "Write clean Business Requirement Documents (BRD) and user stories.",
+          "Collaborate directly with developers and QA engineers during sprints.",
+          "Verify that delivered software updates resolve the original business bottleneck."
+        ],
+        entryPathways: "Degrees in Commerce, Business Administration, Engineering, or BCA/MCA. Entry roles: Junior BA, Associate Product Consultant.",
+        realityPro: "High industry versatility; direct access to leadership decision-makers; fast progression to Product Management.",
+        realityCon: "Constant friction dealing with changing stakeholder requirements; tight delivery deadlines; ambiguous blame when projects slip."
+      },
+      {
+        id: "embedded",
+        title: "Embedded Systems Engineer",
+        domain: "core",
+        badge: "Hardware & IoT",
+        badgeClass: "badge-accent",
+        shortDesc: "Programs microcontrollers and firmware to bridge physical sensors, motors, and hardware circuits with digital control algorithms.",
+        tools: ["Embedded C/C++", "ARM Cortex", "ESP32", "RTOS", "Oscilloscopes", "PCB Layout"],
+        salaryRange: "₹4.8L - ₹16L / annum",
+        demand: "Surging in EV, Robotics, Consumer IoT",
+        responsibilities: [
+          "Write bare-metal C and RTOS firmware for microcontrollers.",
+          "Interface communication protocols like I2C, SPI, UART, and CAN-bus.",
+          "Debug circuit voltage fluctuations and signal noise using oscilloscopes and logic analyzers.",
+          "Optimize battery life and memory consumption on resource-constrained microchips."
+        ],
+        entryPathways: "Degrees in Electrical & Electronics Engineering (EEE), Electronics & Communication (ECE), or Mechatronics.",
+        realityPro: "Tangible gratification of seeing hardware devices come to life; resilient core engineering expertise; vital for EV and clean energy revolutions.",
+        realityCon: "Hardware bugs cannot be patched with an instant cloud update; requires physical lab equipment; initial steep learning curve."
+      },
+      {
+        id: "data-analyst",
+        title: "Data Analyst",
+        domain: "tech",
+        badge: "Analytics",
+        badgeClass: "badge-emerald",
+        shortDesc: "Transforms raw data tables into insightful dashboards, visual metrics, and reports that answer critical strategic questions.",
+        tools: ["Python", "SQL", "Tableau", "Pandas", "Statistics", "Google BigQuery"],
+        salaryRange: "₹5.0L - ₹15L / annum",
+        demand: "Consistent across all data-driven enterprises",
+        responsibilities: [
+          "Clean, filter, and normalize messy and unstructured database tables.",
+          "Build intuitive dashboards that alert managers to sales or churn trends.",
+          "Perform statistical significance testing on marketing experiments.",
+          "Translate mathematical conclusions into plain language for executive teams."
+        ],
+        entryPathways: "Degrees in Mathematics, Statistics, Computer Science, Economics, or any quantitative discipline.",
+        realityPro: "Immediate visible impact on company performance; high remote flexibility; clear stepping stone to Machine Learning Engineering.",
+        realityCon: "80% of daily time is spent on frustrating data cleaning; repetitive requests for ad-hoc Excel spreadsheets from colleagues."
+      },
+      {
+        id: "frontend-dev",
+        title: "Frontend Web Architect",
+        domain: "tech",
+        badge: "Software Engineering",
+        badgeClass: "badge-indigo",
+        shortDesc: "Engineers responsive, accessible, and blazingly fast client-side applications that users interact with directly.",
+        tools: ["React", "JavaScript/TypeScript", "CSS Architecture", "Tailwind", "REST/GraphQL"],
+        salaryRange: "₹6.0L - ₹20L / annum",
+        demand: "High, but entry-level market is competitive",
+        responsibilities: [
+          "Translate design mockups and Figma prototypes into fluid web components.",
+          "Ensure sub-second page loading and seamless responsive behavior across all screen sizes.",
+          "Connect backend APIs and handle offline state and local caching gracefully.",
+          "Maintain accessibility compliance (WCAG) for diverse users."
+        ],
+        entryPathways: "Degrees in CS, IT, or self-taught web developers with strong GitHub portfolio projects.",
+        realityPro: "Visual satisfaction of building software you can immediately test and share; plentiful freelancing and remote work prospects.",
+        realityCon: "Constant rapid churn of new frameworks and build tools; browser compatibility edge-cases; intense competition for entry-level positions."
+      },
+      {
+        id: "product-manager",
+        title: "Associate Product Manager",
+        domain: "business",
+        badge: "Strategy",
+        badgeClass: "badge-amber",
+        shortDesc: "Owns the vision, roadmap, and prioritization of software products by balancing user needs, technical feasibility, and business profit.",
+        tools: ["Figma", "Mixpanel", "Jira", "User Interviews", "PRDs", "A/B Testing"],
+        salaryRange: "₹9.0L - ₹24L / annum",
+        demand: "Extremely competitive and lucrative",
+        responsibilities: [
+          "Define product roadmaps and prioritize developer sprint features.",
+          "Analyze customer drop-offs and conduct qualitative discovery interviews.",
+          "Coordinate between engineering, marketing, legal, and executive leadership.",
+          "Measure success through retention, activation, and revenue metrics."
+        ],
+        entryPathways: "APM Rotational Programs, or transitioning from Software Engineering, Business Analysis, or UX Research.",
+        realityPro: "High leadership autonomy; top compensation; direct influence over what features get engineered.",
+        realityCon: "All responsibility with zero formal authority over teammates; frequent conflicting requests; high meeting exhaustion."
+      },
+      {
+        id: "iot-architect",
+        title: "IoT Solutions Architect",
+        domain: "core",
+        badge: "Smart Systems",
+        badgeClass: "badge-accent",
+        shortDesc: "Designs end-to-end connected ecosystems—linking field sensors, wireless gateways, cloud telemetry, and user dashboards.",
+        tools: ["MQTT", "AWS IoT Core", "ESP-IDF", "Node.js", "C++", "Bluetooth Low Energy"],
+        salaryRange: "₹8.0L - ₹22L / annum",
+        demand: "High in Industrial Automation & Smart Cities",
+        responsibilities: [
+          "Design robust wireless communication pipelines between hardware sensors and cloud servers.",
+          "Implement end-to-end hardware encryption and over-the-air (OTA) firmware update protocols.",
+          "Calculate power budget for battery-operated remote sensor nodes.",
+          "Architect device fleet management dashboards for monitoring hundreds of thousands of active devices."
+        ],
+        entryPathways: "Degrees in Electrical (EEE), Electronics (ECE), or Computer Systems with hybrid hardware-software projects.",
+        realityPro: "Exciting synthesis of physical devices and cloud computing; cutting-edge industrial innovation.",
+        realityCon: "Complex debugging involving both packet loss over radio frequencies and edge computing firmware panics."
+      }
+    ];
+
+    const EXPERTS_DATABASE = [
+      {
+        id: "arjun",
+        name: "Arjun Kumar",
+        initials: "AK",
+        avatarBg: "linear-gradient(135deg, #4f46e5, #7c3aed)",
+        role: "Senior Business Analyst",
+        company: "Global FinTech Scaleup",
+        exp: "6+ Years Experience",
+        verified: true,
+        bio: "Specializes in helping engineering & commerce students pivot into strategic Business Analyst and Product Consultant roles. Has mentored 30+ students through case study interviews.",
+        topics: ["Case Study Prep", "SQL & Excel Projects", "Stakeholder Communication", "Resume Audit"],
+        videoRate: "₹500 / 30m",
+        chatRate: "₹250",
+        avail: "Next slot: Today, 5:00 PM"
+      },
+      {
+        id: "rohan",
+        name: "Rohan Sharma",
+        initials: "RS",
+        avatarBg: "linear-gradient(135deg, #059669, #10b981)",
+        role: "Lead Embedded Architect",
+        company: "NexGen Smart Mobility",
+        exp: "8+ Years Experience",
+        verified: true,
+        bio: "Veteran EEE practitioner. Guides students in firmware architecture, PCB debugging, and securing internships in EV battery management and industrial IoT.",
+        topics: ["Microcontroller Selection", "Embedded C & RTOS", "Hardware Portfolio Setup", "Core Placement Strategy"],
+        videoRate: "₹650 / 30m",
+        chatRate: "₹300",
+        avail: "Next slot: Tomorrow, 6:00 PM"
+      },
+      {
+        id: "sneha",
+        name: "Sneha Mukherjee",
+        initials: "SM",
+        avatarBg: "linear-gradient(135deg, #0ea5e9, #6366f1)",
+        role: "Staff Data Analyst",
+        company: "HealthMetrics Global",
+        exp: "5+ Years Experience",
+        verified: true,
+        bio: "Passionate about data storytelling. Teaches students how to build portfolio dashboards that recruiters actually look at, rather than copying generic Kaggle notebooks.",
+        topics: ["Tableau & SQL Portfolio", "Junior Analyst Interviews", "Transitioning from Non-CS", "Salary Negotiation"],
+        videoRate: "₹450 / 30m",
+        chatRate: "₹200",
+        avail: "Next slot: Monday, 7:00 PM"
+      }
+    ];
+
+    let APP_STATE = {
+      currentRole: "student", // 'student' or 'expert'
+      studentProfile: {
+        name: "Priya Sharma",
+        level: "Higher Secondary (12th)",
+        stream: "Science / Exploratory",
+        confusion: "High"
+      },
+      roadmapRole: "Business Analyst",
+      milestones: [
+        {
+          id: 1,
+          stepNum: 1,
+          title: "Career Orientation & Role Realities",
+          desc: "Complete Enlighten Way's AI assessment and read the Career Reality Check for your chosen domain.",
+          done: true
+        },
+        {
+          id: 2,
+          stepNum: 2,
+          title: "Foundational Excel & SQL Mastery",
+          desc: "Learn advanced VLOOKUP/INDEX-MATCH, aggregate queries, JOINS, and relational data modeling.",
+          done: false
+        },
+        {
+          id: 3,
+          stepNum: 3,
+          title: "Build First Practical Case Study",
+          desc: "Analyze a real business problem (e.g. food delivery return rates) and create a formal Business Requirement Document (BRD).",
+          done: false
+        },
+        {
+          id: 4,
+          stepNum: 4,
+          title: "Mentor Portfolio Review with Arjun",
+          desc: "Schedule a 30-minute 1-on-1 consultation to get feedback on your draft resume and case studies.",
+          done: false
+        },
+        {
+          id: 5,
+          stepNum: 5,
+          title: "Simulate Mock Case Interviews",
+          desc: "Practice answering stakeholder ambiguity questions and estimation frameworks under timed pressure.",
+          done: false
+        },
+        {
+          id: 6,
+          stepNum: 6,
+          title: "Apply for Junior Analyst Internships",
+          desc: "Target 10 boutique consulting and tech companies with personalized project-first cover letters.",
+          done: false
+        }
+      ],
+      expertRequests: [
+        {
+          id: "req-1",
+          studentName: "Priya Sharma",
+          date: "2026-10-25",
+          timeSlot: "5:00 PM - 5:30 PM",
+          mode: "video",
+          doubts: "I'm a higher secondary student deciding between Business Analysis and Engineering. I want guidance on which college degrees and beginner projects will give me the best foundation.",
+          status: "pending",
+          fee: "₹500"
+        }
+      ]
+    };
+
+    /* ==========================================================================
+       2. NAVIGATION & ROLE MANAGEMENT
+       ========================================================================== */
+    function navigateTo(sectionId) {
+      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      const targetSection = document.getElementById('section-' + sectionId);
+      const targetNav = document.getElementById('nav-' + sectionId);
+
+      if (targetSection) targetSection.classList.add('active');
+      if (targetNav) targetNav.classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setRole(role) {
+      APP_STATE.currentRole = role;
+      const studentBtn = document.getElementById('btn-role-student');
+      const expertBtn = document.getElementById('btn-role-expert');
+      const studentNav = document.getElementById('student-nav');
+      const expertNav = document.getElementById('expert-nav');
+      const roleText = document.getElementById('role-status-text');
+      const headerAvatar = document.getElementById('header-avatar');
+      const headerName = document.getElementById('header-username');
+      const headerSub = document.getElementById('header-subtext');
+
+      if (role === 'student') {
+        studentBtn.classList.add('active');
+        expertBtn.classList.remove('active');
+        studentNav.style.display = 'flex';
+        expertNav.style.display = 'none';
+        roleText.innerHTML = `Active Role: <strong>Priya (Student Explorer)</strong>`;
+        headerAvatar.textContent = "P";
+        headerAvatar.style.background = "linear-gradient(135deg, #6366f1 0%, #a855f7 100%)";
+        headerName.textContent = APP_STATE.studentProfile.name;
+        headerSub.textContent = "Higher Sec. / Exploring";
+        showToast("Switched to Student Experience (Priya)", "🎓");
+        navigateTo('home');
+      } else {
+        expertBtn.classList.add('active');
+        studentBtn.classList.remove('active');
+        studentNav.style.display = 'none';
+        expertNav.style.display = 'flex';
+        roleText.innerHTML = `Active Role: <strong>Arjun Kumar (Senior BA & Mentor)</strong>`;
+        headerAvatar.textContent = "A";
+        headerAvatar.style.background = "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)";
+        headerName.textContent = "Arjun Kumar";
+        headerSub.textContent = "Senior BA • Verified Mentor";
+        showToast("Switched to Mentor Dashboard (Arjun)", "💼");
+        renderExpertDashboard();
+        navigateTo('expert-dashboard');
+      }
+    }
+
+    function showToast(message, icon = "🔔") {
+      const toast = document.getElementById('live-toast');
+      document.getElementById('toast-icon').textContent = icon;
+      document.getElementById('toast-message').textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 4000);
+    }
+
+    /* ==========================================================================
+       3. CAREERS CATALOG RENDERING & FILTERING
+       ========================================================================== */
+    function renderCareers(list = CAREER_DATABASE) {
+      const container = document.getElementById('careers-grid-container');
+      container.innerHTML = "";
+
+      list.forEach(c => {
+        const card = document.createElement('div');
+        card.className = "career-item-card";
+        card.innerHTML = `
+          <div>
+            <div class="career-header-info">
+              <span class="badge ${c.badgeClass}">${c.badge}</span>
+              <button class="btn btn-ghost btn-sm" onclick="showCareerModal('${c.id}')" title="Full Deep Dive">
+                Details ↗
+              </button>
+            </div>
+            <h3 class="career-item-title">${c.title}</h3>
+            <p class="career-item-desc">${c.shortDesc}</p>
+            <div class="tools-tags-list">
+              ${c.tools.map(t => `<span class="tool-tag">${t}</span>`).join('')}
+            </div>
+          </div>
+          <div>
+            <div class="career-meta-row">
+              <span style="font-weight:700; color:var(--slate-800);">${c.salaryRange}</span>
+              <span style="color:var(--emerald); font-weight:700; font-size:0.75rem;">${c.demand}</span>
+            </div>
+            <div style="display:flex; gap:0.5rem; margin-top:1rem;">
+              <button class="btn btn-outline btn-sm" style="flex:1;" onclick="setTargetRoadmapRole('${c.title}')">
+                Set as Roadmap
+              </button>
+              <button class="btn btn-primary btn-sm" onclick="showCareerModal('${c.id}')">
+                Deep Dive
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function filterCareers(domain, btn) {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (domain === 'all') {
+        renderCareers(CAREER_DATABASE);
+      } else {
+        const filtered = CAREER_DATABASE.filter(c => c.domain === domain);
+        renderCareers(filtered);
+      }
+    }
+
+    function searchCareerCards() {
+      const q = document.getElementById('career-search-box').value.toLowerCase().trim();
+      const filtered = CAREER_DATABASE.filter(c => 
+        c.title.toLowerCase().includes(q) ||
+        c.shortDesc.toLowerCase().includes(q) ||
+        c.tools.some(t => t.toLowerCase().includes(q))
+      );
+      renderCareers(filtered);
+    }
+
+    function showCareerModal(careerId) {
+      const c = CAREER_DATABASE.find(item => item.id === careerId);
+      if (!c) return;
+
+      const body = document.getElementById('modal-career-body');
+      body.innerHTML = `
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1rem;">
+          <span class="badge ${c.badgeClass}">${c.badge}</span>
+        </div>
+        <h2 style="font-size:1.75rem; font-weight:900; color:var(--slate-900);">${c.title}</h2>
+        <p style="font-size:0.95rem; color:var(--slate-600); margin:0.5rem 0 1.5rem 0;">${c.shortDesc}</p>
+
+        <h4 style="font-size:0.95rem; font-weight:800; color:var(--slate-900); margin-bottom:0.4rem;">Core Roles & Responsibilities</h4>
+        <ul style="padding-left:1.25rem; font-size:0.88rem; color:var(--slate-700); line-height:1.6; margin-bottom:1.5rem;">
+          ${c.responsibilities.map(r => `<li>${r}</li>`).join('')}
+        </ul>
+
+        <h4 style="font-size:0.95rem; font-weight:800; color:var(--slate-900); margin-bottom:0.4rem;">Essential Tools & Skills</h4>
+        <div class="tools-tags-list" style="margin-bottom:1.5rem;">
+          ${c.tools.map(t => `<span class="tool-tag" style="padding:0.35rem 0.75rem; font-size:0.8rem;">${t}</span>`).join('')}
+        </div>
+
+        <h4 style="font-size:0.95rem; font-weight:800; color:var(--slate-900); margin-bottom:0.4rem;">Typical Pathways & Entry Roles</h4>
+        <p style="font-size:0.88rem; color:var(--slate-700); margin-bottom:1.5rem; line-height:1.5;">${c.entryPathways}</p>
+
+        <div style="display:flex; gap:0.75rem; margin-top:2rem;">
+          <button class="btn btn-primary" style="flex:1;" onclick="setTargetRoadmapRole('${c.title}'); closeModal('modal-career-detail'); navigateTo('roadmap');">
+            Adopt as My Roadmap Goal
+          </button>
+          <button class="btn btn-secondary" onclick="closeModal('modal-career-detail'); navigateTo('reality');">
+            View Reality Check
+          </button>
+        </div>
+      `;
+
+      openModal('modal-career-detail');
+    }
+
+    /* ==========================================================================
+       4. CAREER REALITY CHECKS RENDERING
+       ========================================================================== */
+    function renderRealityChecks() {
+      const container = document.getElementById('reality-list-container');
+      container.innerHTML = "";
+
+      CAREER_DATABASE.forEach(c => {
+        const card = document.createElement('div');
+        card.className = "reality-card";
+        card.innerHTML = `
+          <div class="reality-banner">
+            <div>
+              <span class="badge ${c.badgeClass}">${c.badge}</span>
+              <h3 style="font-size:1.45rem; font-weight:900; color:var(--slate-900); margin-top:0.35rem;">${c.title} – Truth Check</h3>
+            </div>
+            <button class="btn btn-outline btn-sm" onclick="setTargetRoadmapRole('${c.title}')">Plan Roadmap →</button>
+          </div>
+
+          <div class="reality-split-grid">
+            <div class="reality-column positives">
+              <div class="reality-col-header pos">
+                <span>🌟</span> Attractive Perks & Advantages
+              </div>
+              <ul class="reality-points-list">
+                <li><span style="color:#166534; font-weight:800;">✔</span> ${c.realityPro}</li>
+                <li><span style="color:#166534; font-weight:800;">✔</span> High transferability of skills across diverse market sectors.</li>
+                <li><span style="color:#166534; font-weight:800;">✔</span> Competitive compensation packages as experience crosses 3+ years.</li>
+              </ul>
+            </div>
+
+            <div class="reality-column challenges">
+              <div class="reality-col-header neg">
+                <span>⚠️</span> Hard Realities & Daily Stressors
+              </div>
+              <ul class="reality-points-list">
+                <li><span style="color:#9f1239; font-weight:800;">✖</span> ${c.realityCon}</li>
+                <li><span style="color:#9f1239; font-weight:800;">✖</span> High volume of unqualified entry-level applicants creates resume filtering friction.</li>
+                <li><span style="color:#9f1239; font-weight:800;">✖</span> Constant need to self-study new tools and workflows outside work hours.</li>
+              </ul>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    /* ==========================================================================
+       5. EXPERTS CATALOG & BOOKING SYSTEM
+       ========================================================================== */
+    function renderExpertsCatalog() {
+      const container = document.getElementById('experts-catalog-container');
+      container.innerHTML = "";
+
+      EXPERTS_DATABASE.forEach(exp => {
+        const card = document.createElement('div');
+        card.className = "expert-profile-card";
+        card.innerHTML = `
+          <div>
+            <div class="expert-head">
+              <div class="expert-avatar-lg" style="background:${exp.avatarBg};">${exp.initials}</div>
+              <div class="expert-title-block">
+                <h3>${exp.name} <span class="verified-icon" title="Identity & Experience Verified">✓</span></h3>
+                <div class="headline">${exp.role}</div>
+                <div class="company-exp">${exp.company} • ${exp.exp}</div>
+              </div>
+            </div>
+            <p class="expert-bio">${exp.bio}</p>
+            <div class="expert-topics">
+              ${exp.topics.map(t => `<span class="topic-badge">${t}</span>`).join('')}
+            </div>
+          </div>
+          <div>
+            <div class="expert-footer-rates">
+              <div class="rate-info">
+                <strong>${exp.videoRate}</strong>
+                <small>${exp.avail}</small>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="openBookingModalFor('${exp.name}', '${exp.role}')">
+                Book Consultation
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    let selectedMentorForBooking = "Arjun Kumar";
+    function openBookingModalFor(mentorName, role) {
+      selectedMentorForBooking = mentorName;
+      document.getElementById('booking-mentor-subtitle').textContent = `Schedule your personalized 1-on-1 session with ${mentorName} (${role}).`;
+      
+      // Default date to tomorrow
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById('booking-date').value = tomorrow.toISOString().split('T')[0];
+
+      openModal('modal-booking');
+    }
+
+    function selectSlot(btn) {
+      document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    }
+
+    function updateBookingPriceDisplay() {
+      const mode = document.getElementById('booking-mode-select').value;
+      const feeText = document.getElementById('booking-fee-text');
+      feeText.textContent = mode === 'video' ? '₹500' : '₹250';
+    }
+
+    function handleBookingSubmission(e) {
+      e.preventDefault();
+      const date = document.getElementById('booking-date').value;
+      const slot = document.querySelector('.slot-btn.selected')?.textContent || "5:00 PM - 5:30 PM";
+      const mode = document.getElementById('booking-mode-select').value;
+      const doubts = document.getElementById('booking-doubts').value;
+      const fee = mode === 'video' ? '₹500' : '₹250';
+
+      const newBooking = {
+        id: "req-" + Date.now(),
+        studentName: APP_STATE.studentProfile.name,
+        date: date,
+        timeSlot: slot,
+        mode: mode,
+        doubts: doubts,
+        status: "pending",
+        fee: fee
+      };
+
+      // Add to expert dashboard requests
+      APP_STATE.expertRequests.unshift(newBooking);
+
+      closeModal('modal-booking');
+      showToast(`Appointment requested with ${selectedMentorForBooking}! Notification sent to Arjun.`, "🚀");
+
+      // Auto check step 4 in roadmap if appropriate
+      const mentorStep = APP_STATE.milestones.find(m => m.id === 4);
+      if (mentorStep && !mentorStep.done) {
+        mentorStep.done = true;
+        renderRoadmap();
+      }
+
+      // Update badge
+      updateExpertRequestCounters();
+    }
+
+    function updateExpertRequestCounters() {
+      const pendingCount = APP_STATE.expertRequests.filter(r => r.status === 'pending').length;
+      document.getElementById('expert-pending-count').textContent = pendingCount;
+      document.getElementById('metric-active-requests').textContent = pendingCount;
+      const badgeText = document.getElementById('pending-badge-text');
+      if (badgeText) badgeText.textContent = `${pendingCount} Pending Action`;
+    }
+
+    /* ==========================================================================
+       6. EXPERT DASHBOARD LOGIC (Arjun's Portal)
+       ========================================================================== */
+    function renderExpertDashboard() {
+      updateExpertRequestCounters();
+      const container = document.getElementById('expert-requests-container');
+      container.innerHTML = "";
+
+      if (APP_STATE.expertRequests.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:2rem; color:var(--slate-500);">No appointment requests at this moment.</div>`;
+        return;
+      }
+
+      APP_STATE.expertRequests.forEach(req => {
+        const item = document.createElement('div');
+        item.className = `request-item ${req.status}`;
+        item.innerHTML = `
+          <div class="req-student-row">
+            <div>
+              <span class="req-student-name">${req.studentName}</span>
+              <span class="badge ${req.status === 'pending' ? 'badge-amber' : 'badge-emerald'}" style="margin-left:0.5rem;">
+                ${req.status.toUpperCase()}
+              </span>
+            </div>
+            <strong style="color:var(--slate-800); font-size:0.9rem;">${req.fee}</strong>
+          </div>
+          <div style="font-size:0.8rem; color:var(--slate-500);">
+            📅 Scheduled: <strong>${req.date}</strong> at <strong>${req.timeSlot}</strong> (${req.mode.toUpperCase()})
+          </div>
+          <div class="req-message">
+            “${req.doubts}”
+          </div>
+          <div class="req-actions">
+            ${req.status === 'pending' ? `
+              <button class="btn btn-rose btn-sm" onclick="respondToRequest('${req.id}', 'declined')">Decline</button>
+              <button class="btn btn-outline btn-sm" onclick="proposeAlternative('${req.id}')">Reschedule</button>
+              <button class="btn btn-emerald btn-sm" onclick="respondToRequest('${req.id}', 'confirmed')">Accept Consultation</button>
+            ` : `
+              <button class="btn btn-primary btn-sm" onclick="showToast('Starting video room link with ${req.studentName}...', '🎥')">
+                Join Video Call
+              </button>
+            `}
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function respondToRequest(reqId, newStatus) {
+      const target = APP_STATE.expertRequests.find(r => r.id === reqId);
+      if (target) {
+        target.status = newStatus;
+        renderExpertDashboard();
+        showToast(newStatus === 'confirmed' ? `Accepted ${target.studentName}'s session! Confirmation email dispatched.` : `Declined request.`, "💼");
+      }
+    }
+
+    function proposeAlternative(reqId) {
+      showToast("Sent suggested alternative time slot (Tomorrow 7:30 PM) to student.", "🕒");
+    }
+
+    function updateArjunRate(newVal) {
+      showToast(`Updated video consultation fee to ${newVal}`, "✅");
+    }
+
+    /* ==========================================================================
+       7. CAREER ROADMAP & TASK TRACKER
+       ========================================================================== */
+    function setTargetRoadmapRole(roleTitle) {
+      APP_STATE.roadmapRole = roleTitle;
+      document.getElementById('roadmap-role-title').textContent = roleTitle;
+      showToast(`Target goal updated to ${roleTitle}! Roadmap recalibrated.`, "🎯");
+      renderRoadmap();
+    }
+
+    function renderRoadmap() {
+      const container = document.getElementById('milestones-list-container');
+      container.innerHTML = "";
+
+      let completedCount = 0;
+      let nextTaskSet = false;
+
+      APP_STATE.milestones.forEach((m, idx) => {
+        if (m.done) completedCount++;
+
+        if (!m.done && !nextTaskSet) {
+          document.getElementById('roadmap-next-task-name').textContent = m.title;
+          nextTaskSet = true;
+        }
+
+        const item = document.createElement('div');
+        item.className = `milestone-item ${m.done ? 'done' : ''}`;
+        item.innerHTML = `
+          <div class="milestone-check ${m.done ? 'checked' : ''}" onclick="toggleMilestoneCheck(${m.id})">
+            ${m.done ? '✓' : ''}
+          </div>
+          <div class="milestone-content">
+            <div class="milestone-title-row">
+              <span class="milestone-title">Step ${idx + 1}: ${m.title}</span>
+              <span class="badge ${m.done ? 'badge-emerald' : 'badge-indigo'}">
+                ${m.done ? 'Completed' : 'Pending'}
+              </span>
+            </div>
+            <p class="milestone-desc">${m.desc}</p>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+
+      // Update progress percent
+      const percent = Math.round((completedCount / APP_STATE.milestones.length) * 100);
+      document.getElementById('roadmap-percent-display').textContent = `${percent}%`;
+
+      if (completedCount === APP_STATE.milestones.length) {
+        document.getElementById('roadmap-next-task-name').textContent = "All Core Milestones Completed! Ready for applications.";
+      }
+    }
+
+    function toggleMilestoneCheck(id) {
+      const m = APP_STATE.milestones.find(item => item.id === id);
+      if (m) {
+        m.done = !m.done;
+        renderRoadmap();
+        showToast(m.done ? `Marked "${m.title}" as completed!` : `Marked "${m.title}" as pending.`, "✅");
+      }
+    }
+
+    function openCustomMilestoneModal() {
+      openModal('modal-custom-milestone');
+    }
+
+    function addCustomMilestone() {
+      const title = document.getElementById('custom-task-title').value.trim();
+      const desc = document.getElementById('custom-task-desc').value.trim();
+      if (!title) return;
+
+      const newM = {
+        id: Date.now(),
+        stepNum: APP_STATE.milestones.length + 1,
+        title: title,
+        desc: desc || "Personal milestone.",
+        done: false
+      };
+
+      APP_STATE.milestones.push(newM);
+      closeModal('modal-custom-milestone');
+      renderRoadmap();
+      showToast("Added custom milestone to your roadmap!", "⭐");
+      document.getElementById('custom-task-title').value = "";
+      document.getElementById('custom-task-desc').value = "";
+    }
+
+    /* ==========================================================================
+       8. AI CAREER ASSISTANT (Live Conversation & Matching Engine)
+       ========================================================================== */
+    function submitUserChatMessage() {
+      const input = document.getElementById('ai-user-text');
+      const text = input.value.trim();
+      if (!text) return;
+      input.value = "";
+      simulateAIPrompt(text);
+    }
+
+    function simulateAIPrompt(userQuery) {
+      const container = document.getElementById('ai-chat-container');
+
+      // 1. User Message
+      const userDiv = document.createElement('div');
+      userDiv.className = "chat-message user";
+      userDiv.innerHTML = `<div class="bubble">${userQuery}</div>`;
+      container.appendChild(userDiv);
+      container.scrollTop = container.scrollHeight;
+
+      // 2. Intelligent Simulation Response
+      setTimeout(() => {
+        const botDiv = document.createElement('div');
+        botDiv.className = "chat-message bot";
+        const lower = userQuery.toLowerCase();
+
+        let responseHTML = "";
+
+        if (lower.includes('hardware') || lower.includes('circuit') || lower.includes('electronics') || lower.includes('iot')) {
+          responseHTML = `
+            That aligns directly with <strong>Embedded Systems & IoT Engineering</strong>! With an affinity for physical circuits and hardware logic, you have an edge over pure software applicants who lack circuit-level debugging instincts.
+            <div class="recommendation-result-box">
+              <div class="rec-item">
+                <div>
+                  <strong>Embedded Systems Engineer</strong><br>
+                  <small style="color:var(--slate-500);">C/C++, Microcontrollers, Firmware</small>
+                </div>
+                <span class="rec-match-score">96% Match</span>
+              </div>
+            </div>
+            <div class="prompt-suggestions">
+              <button class="prompt-chip" onclick="showCareerModal('embedded')">View Embedded Deep Dive →</button>
+              <button class="prompt-chip" onclick="openBookingModalFor('Rohan Sharma', 'IoT Systems')">Consult Rohan Sharma (Hardware Mentor) →</button>
+            </div>
+          `;
+        } else if (lower.includes('business') || lower.includes('data') || lower.includes('workflow') || lower.includes('numbers')) {
+          responseHTML = `
+            That is a signature profile for a <strong>Business Analyst</strong> or <strong>Data Analyst</strong>! You enjoy structured problem-solving, identifying organizational bottlenecks, and translating metrics into strategic executive decisions without getting lost in low-level syntax.
+            <div class="recommendation-result-box">
+              <div class="rec-item">
+                <div>
+                  <strong>Business Analyst</strong><br>
+                  <small style="color:var(--slate-500);">Requirements, Excel, SQL, Process Diagrams</small>
+                </div>
+                <span class="rec-match-score">95% Match</span>
+              </div>
+              <div class="rec-item">
+                <div>
+                  <strong>Data Analyst</strong><br>
+                  <small style="color:var(--slate-500);">Dashboards, Statistics, SQL, Tableau</small>
+                </div>
+                <span class="rec-match-score">89% Match</span>
+              </div>
+            </div>
+            <div class="prompt-suggestions">
+              <button class="prompt-chip" onclick="showCareerModal('ba')">Deep Dive: Business Analyst →</button>
+              <button class="prompt-chip" onclick="openBookingModalFor('Arjun Kumar', 'Business Analyst')">Book 1-on-1 with Arjun Kumar →</button>
+            </div>
+          `;
+        } else {
+          responseHTML = `
+            Excellent reflection! Based on your exploratory mindset, the highest leverage move is to compare a role's daily responsibilities against its <strong>Career Reality Check</strong> rather than relying solely on popularity.
+            <div class="prompt-suggestions">
+              <button class="prompt-chip" onclick="evaluateFullRecommendations()">🎯 Run Full Compatibility Match</button>
+              <button class="prompt-chip" onclick="navigateTo('reality')">Explore Unfiltered Reality Checks →</button>
+            </div>
+          `;
+        }
+
+        botDiv.innerHTML = `<div class="bubble">${responseHTML}</div>`;
+        container.appendChild(botDiv);
+        container.scrollTop = container.scrollHeight;
+      }, 600);
+    }
+
+    function evaluateFullRecommendations() {
+      const container = document.getElementById('ai-chat-container');
+      const botDiv = document.createElement('div');
+      botDiv.className = "chat-message bot";
+      botDiv.innerHTML = `
+        <div class="bubble">
+          <strong>Enlighten Career Assessment Result:</strong><br>
+          Based on your answers, here is your ranked career compatibility analysis:
+          <div class="recommendation-result-box">
+            <div class="rec-item">
+              <div>
+                <strong>1. Business Analyst</strong><br>
+                <small style="color:var(--slate-500);">Matches your passion for problem structure & team collaboration.</small>
+              </div>
+              <span class="rec-match-score">94% Fit</span>
+            </div>
+            <div class="rec-item">
+              <div>
+                <strong>2. Embedded Systems Engineer</strong><br>
+                <small style="color:var(--slate-500);">Matches logical hardware circuits & tactile prototyping.</small>
+              </div>
+              <span class="rec-match-score">88% Fit</span>
+            </div>
+            <div class="rec-item">
+              <div>
+                <strong>3. Data Analyst</strong><br>
+                <small style="color:var(--slate-500);">Matches data visualization & dashboard storytelling.</small>
+              </div>
+              <span class="rec-match-score">82% Fit</span>
+            </div>
+          </div>
+          <div class="prompt-suggestions" style="margin-top:0.75rem;">
+            <button class="prompt-chip" onclick="setTargetRoadmapRole('Business Analyst'); navigateTo('roadmap');">Adopt Business Analyst Roadmap →</button>
+            <button class="prompt-chip" onclick="navigateTo('experts')">Find Verified Practitioner Mentors →</button>
+          </div>
+        </div>
+      `;
+      container.appendChild(botDiv);
+      container.scrollTop = container.scrollHeight;
+      showToast("Generated top career matches for Priya!", "🎯");
+    }
+
+    function resetAIChat() {
+      const container = document.getElementById('ai-chat-container');
+      container.innerHTML = `
+        <div class="chat-message bot">
+          <div class="bubble">
+            Chat session refreshed. What kind of problem-solving or technical challenge excites you the most?
+            <div class="prompt-suggestions">
+              <span class="prompt-chip" onclick="simulateAIPrompt('I like analyzing numbers, patterns, and improving team workflows.')">📊 Business & Data Analysis</span>
+              <span class="prompt-chip" onclick="simulateAIPrompt('I enjoy hands-on electronics, microcontrollers, and circuit hardware.')">⚡ Hardware & Embedded Systems</span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    /* ==========================================================================
+       9. PROFILE & MODAL CONTROLS
+       ========================================================================== */
+    function openModal(modalId) {
+      document.getElementById(modalId).classList.add('active');
+    }
+
+    function closeModal(modalId) {
+      document.getElementById(modalId).classList.remove('active');
+    }
+
+    function openProfileModal() {
+      openModal('modal-profile');
+    }
+
+    function saveProfileChanges() {
+      const name = document.getElementById('profile-name-input').value.trim();
+      const level = document.getElementById('profile-level-select').value;
+      const stream = document.getElementById('profile-stream-input').value.trim();
+
+      if (name) {
+        APP_STATE.studentProfile.name = name;
+        APP_STATE.studentProfile.level = level;
+        APP_STATE.studentProfile.stream = stream;
+        document.getElementById('header-username').textContent = name;
+      }
+
+      closeModal('modal-profile');
+      showToast("Student profile updated successfully!", "👤");
+    }
+
+    // Close modal on click outside
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal-overlay')) {
+        event.target.classList.remove('active');
+      }
+    };
+
+    /* ==========================================================================
+       10. APPLICATION INITIALIZATION
+       ========================================================================== */
+    window.onload = function() {
+      renderCareers();
+      renderRealityChecks();
+      renderExpertsCatalog();
+      renderRoadmap();
+      renderExpertDashboard();
+    };
+  </script>
+</body>
+</html>
