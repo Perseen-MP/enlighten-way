@@ -3137,5 +3137,85 @@ Student Question: ${userQuestion}`
     }
   }
 </script>
+<!-- DYNAMIC ROADMAP PROGRESS & PERSISTENCE SCRIPT -->
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  initRoadmapSystem();
+});
+
+function initRoadmapSystem() {
+  const roadmapSection = document.getElementById("section-roadmap") || document.body;
+  const checkboxes = Array.from(roadmapSection.querySelectorAll('input[type="checkbox"]'));
+  const progressText = document.querySelector(".text-5xl") || Array.from(document.querySelectorAll("*")).find(el => el.children.length === 0 && el.innerText.trim() === "17%");
+
+  if (checkboxes.length === 0) return;
+
+  // 1. Load saved state from LocalStorage
+  const savedState = JSON.parse(localStorage.getItem("enlighten_roadmap_steps") || "{}");
+
+  checkboxes.forEach((cb, index) => {
+    // If state was previously saved, restore it. Default step 0 to true if first visit.
+    if (savedState[index] !== undefined) {
+      cb.checked = savedState[index];
+    }
+
+    updateStepCardAppearance(cb);
+
+    // 2. Listen for clicks on each checkbox
+    cb.addEventListener("change", function () {
+      savedState[index] = cb.checked;
+      localStorage.setItem("enlighten_roadmap_steps", JSON.stringify(savedState));
+      updateStepCardAppearance(cb);
+      calculateProgress();
+    });
+  });
+
+  function updateStepCardAppearance(cb) {
+    const card = cb.closest(".p-4") || cb.closest("div.flex") || cb.parentElement;
+    if (!card) return;
+
+    // Find the badge (Completed / Pending)
+    const badge = Array.from(card.querySelectorAll("span")).find(s => 
+      s.innerText.trim().toLowerCase() === "completed" || s.innerText.trim().toLowerCase() === "pending"
+    );
+
+    // Find the step title
+    const title = card.querySelector("h3") || card.querySelector("h4") || card.querySelector("span.font-bold") || cb.nextElementSibling;
+
+    if (cb.checked) {
+      if (badge) {
+        badge.innerText = "Completed";
+        badge.className = "text-xs font-semibold px-2.5 py-1 bg-emerald-50 text-emerald-700 rounded-md border border-emerald-200";
+      }
+      if (title && title !== badge) {
+        title.style.textDecoration = "line-through";
+        title.style.color = "#94a3b8";
+      }
+    } else {
+      if (badge) {
+        badge.innerText = "Pending";
+        badge.className = "text-xs font-semibold px-2.5 py-1 bg-slate-100 text-slate-500 rounded-md";
+      }
+      if (title && title !== badge) {
+        title.style.textDecoration = "none";
+        title.style.color = "#0f172a";
+      }
+    }
+  }
+
+  function calculateProgress() {
+    const total = checkboxes.length;
+    const completed = checkboxes.filter(c => c.checked).length;
+    const percentage = Math.round((completed / total) * 100);
+
+    if (progressText) {
+      progressText.innerText = percentage + "%";
+    }
+  }
+
+  // Initial calculation on load
+  calculateProgress();
+}
+</script>
 </body>
 </html>
